@@ -1,5 +1,6 @@
 package org.burgas.kotlinspring.routing
 
+import org.burgas.kotlinspring.entity.exception.ExceptionResponse
 import org.burgas.kotlinspring.service.ImageService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -31,6 +32,15 @@ class ImageRouting {
                 ServerResponse.status(HttpStatus.OK)
                     .contentType(MediaType.parseMediaType(image.contentType))
                     .body(resource)
+            }
+
+            onError({ true }) { throwable, _ ->
+                val exception = ExceptionResponse(
+                    status = HttpStatus.BAD_REQUEST.name,
+                    code = HttpStatus.BAD_REQUEST.ordinal,
+                    message = throwable.localizedMessage
+                )
+                ok().body(exception)
             }
         }
     }

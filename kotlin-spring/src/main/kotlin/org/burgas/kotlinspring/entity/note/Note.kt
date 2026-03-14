@@ -45,7 +45,7 @@ class Note : Model {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "identity_id", referencedColumnName = "id")
-    var identity: Identity? = null
+    lateinit var identity: Identity
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

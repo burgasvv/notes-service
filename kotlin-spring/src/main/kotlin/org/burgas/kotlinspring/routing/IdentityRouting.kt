@@ -1,10 +1,12 @@
 package org.burgas.kotlinspring.routing
 
+import org.burgas.kotlinspring.entity.exception.ExceptionResponse
 import org.burgas.kotlinspring.entity.identity.IdentityDetails
 import org.burgas.kotlinspring.entity.identity.IdentityRequest
 import org.burgas.kotlinspring.service.IdentityService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.web.servlet.function.body
 import org.springframework.web.servlet.function.router
@@ -33,51 +35,51 @@ class IdentityRouting {
     @Bean
     fun identityRoutes() = router {
 
-        filter { request, function ->
+        "/api/v1/identities".nest {
 
-            if (listParamRoutes.contains(request.path())) {
-                val authentication = request.principal()
-                    .orElseThrow { throw IllegalArgumentException("Not authenticated") } as Authentication
+            filter { request, function ->
+                if (listParamRoutes.contains(request.path())) {
+                    val authentication = request.principal()
+                        .orElseThrow { throw IllegalArgumentException("Not authenticated") } as Authentication
 
-                if (authentication.isAuthenticated) {
-                    val identityDetails = authentication.principal as IdentityDetails
-                    val identityId = UUID.fromString(request.param("identityId").orElseThrow())
+                    if (authentication.isAuthenticated) {
+                        val identityDetails = authentication.principal as IdentityDetails
+                        val identityId = UUID.fromString(request.param("identityId").orElseThrow())
 
-                    if (identityDetails.identity.id == identityId) {
-                        function(request)
+                        if (identityDetails.identity.id == identityId) {
+                            function(request)
+                        } else {
+                            throw IllegalArgumentException("Identity not authorized")
+                        }
+
                     } else {
-                        throw IllegalArgumentException("Identity not authorized")
+                        throw IllegalArgumentException("Identity not authenticated")
+                    }
+
+                } else if (listBodyRoutes.contains(request.path())) {
+                    val authentication = request.principal()
+                        .orElseThrow { throw IllegalArgumentException("Not authenticated") } as Authentication
+
+                    if (authentication.isAuthenticated) {
+                        val identityDetails = authentication.principal as IdentityDetails
+                        val identityRequest = request.body<IdentityRequest>()
+                        if (identityRequest.id == null) throw IllegalArgumentException("Identity Request id is null for authenticated")
+
+                        if (identityDetails.identity.id == identityRequest.id) {
+                            request.attributes()["identityRequest"] = identityRequest
+                            function(request)
+                        } else {
+                            throw IllegalArgumentException("Identity not authorized")
+                        }
+
+                    } else {
+                        throw IllegalArgumentException("Identity not authenticated")
                     }
 
                 } else {
-                    throw IllegalArgumentException("Identity not authenticated")
-                }
-
-            } else if (listBodyRoutes.contains(request.path())) {
-                val authentication = request.principal()
-                    .orElseThrow { throw IllegalArgumentException("Not authenticated") } as Authentication
-
-                if (authentication.isAuthenticated) {
-                    val identityDetails = authentication.principal as IdentityDetails
-                    val identityRequest = request.body<IdentityRequest>()
-                    if (identityRequest.id == null) throw IllegalArgumentException("Identity Request id is null for authenticated")
-
-                    if (identityDetails.identity.id == identityRequest.id) {
-                        request.attributes()["identityRequest"] = identityRequest
-                        function(request)
-                    } else {
-                        throw IllegalArgumentException("Identity not authorized")
-                    }
-
-                } else {
-                    throw IllegalArgumentException("Identity not authenticated")
+                    function(request)
                 }
             }
-
-            function(request)
-        }
-
-        "/api/v1/identities".nest {
 
             GET("") { ok().body(identityService.findAll()) }
 
@@ -125,6 +127,15 @@ class IdentityRouting {
                 val identityRequest = it.body<IdentityRequest>()
                 identityService.changeStatus(identityRequest)
                 ok().build()
+            }
+
+            onError({ true }) { throwable, _ ->
+                val exception = ExceptionResponse(
+                    status = HttpStatus.BAD_REQUEST.name,
+                    code = HttpStatus.BAD_REQUEST.ordinal,
+                    message = throwable.localizedMessage
+                )
+                ok().body(exception)
             }
         }
     }

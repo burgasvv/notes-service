@@ -48,10 +48,8 @@ class NoteService : CrudService<NoteRequest, Note, NoteShortResponse, NoteFullRe
         if (this.noteRedisTemplate.hasKey(noteKey)) this.noteRedisTemplate.delete(noteKey)
 
         val identity = note.identity
-        if (identity != null) {
-            val identityKey: String = this.identityKey.format(identity.id)
-            if (this.identityRedisTemplate.hasKey(identityKey)) this.identityRedisTemplate.delete(identityKey)
-        }
+        val identityKey: String = this.identityKey.format(identity.id)
+        if (this.identityRedisTemplate.hasKey(identityKey)) this.identityRedisTemplate.delete(identityKey)
     }
 
     override fun findEntity(id: UUID): Note {

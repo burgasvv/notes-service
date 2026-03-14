@@ -32,7 +32,7 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: 0IH1nWgipL7p9UOswTrkG6PcTjFgnPzrdB4zsoVdyyuH_P9y4bnFpV0SnYrElHvKohfQKZfuYwlVqMjGFSoCgrBp-hKyyp0Q
+X-Csrf-Token: tO7xtu_Yw29Xbhw9VLsgadv1PrUP76NdnM7r8mdvo3gmvwARjNzE0oq78Al6WS9eMpYUWrnAE4xq15pw_fmIlgEKkElD2TIg
 
 {
     "authority": "ADMIN",
@@ -98,13 +98,13 @@ POST /api/v1/notes/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: plgvSFNAo5AUqPBMvpxAZquccyZl8K-A4QW-i1CUoplqHmybl2AfcGZwmqQ5ycgq3bF0VJ-uXh5QxJutgDGPu2Wgk6BfKA75
+X-Csrf-Token: RHF-6iJT3_NZsBXB6oOGztheWJ0ycUZq4L3Xr3HPertvvbH_fENLjkcw7JV0hyaijK6y_bprdaRXSX9HgYq0yxeqSYoK24PO
 Authorization: Basic burgasvv@gmail.com burgasvv
 
 {
     "title": "Hello New Note",
     "content": "New content from Hello New Note",
-    "identityId": "9ad0841e-e1b0-4e9d-8a20-ba513e346b63"
+    "identityId": "44121412-faab-48ef-a80a-b8724a6db5b4"
 }
 
 ###
@@ -114,7 +114,7 @@ Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 
 ###
-GET /api/v1/notes/by-id?noteId=d7712ec1-2711-4344-9bd7-708d250a05a2
+GET /api/v1/notes/by-id?noteId=f966b513-8dd1-45e9-ba30-628fc49a4af0
 Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
@@ -124,11 +124,11 @@ PUT /api/v1/notes/update
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: fM95qnESgjciY4jwurQJjMyKzOUTah4ryirCpLaM45bh6MhhTfdJkkQiuwMPArCW2Zk9vvi44d0mXioGqx7zlIO40q_U3qoD
+X-Csrf-Token: mVzjjb9KDzXK7O6Xudx24vvVd7RE2fcbXV-ZeJFN1or2Fve6oW7W6dopPFPn29303_FC0ZngWo0h4c42PGj6HPco5buTcMWL
 Authorization: Basic burgasvv@gmail.com burgasvv
 
 {
-    "id": "75302c92-5e76-4719-a84d-2a20a6217a4d",
+    "id": "0b7b418e-ef6a-405f-8f86-6fc2e43f6bbf",
     "title": "Hello New Note Today"
 }
 
