@@ -10,6 +10,11 @@ GET /api/v1/security/csrf-token
 Host: localhost:9000
 Accept: application/json
 
+###
+GET /api/v1/security/qrcode?content=burgasvv
+Host: localhost:9000
+Accept: application/json
+
 
 
 ### Image Requests
@@ -42,6 +47,23 @@ X-Csrf-Token: tO7xtu_Yw29Xbhw9VLsgadv1PrUP76NdnM7r8mdvo3gmvwARjNzE0oq78Al6WS9eMp
     "firstname": "Бургас",
     "lastname": "Вячеслав",
     "patronymic": "Васильевич"
+}
+
+###
+POST /api/v1/identities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: u_kOvIKFjhElzA0gjjazql6puU7bgdV2fHAeOBIF8uSBg6ENg5g237aztiMI9G9DthuHnWeZlHe_suVbRRV9XHBgkIK5u8Jr
+
+{
+    "authority": "ADMIN",
+    "username": "zagor",
+    "password": "zagor",
+    "email": "zagor@gmail.com",
+    "firstname": "Загорулько",
+    "lastname": "Борис",
+    "patronymic": "Юрьевич"
 }
 
 ###

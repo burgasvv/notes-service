@@ -6,6 +6,7 @@ import org.burgas.kotlinspring.entity.identity.IdentityFullResponse
 import org.burgas.kotlinspring.entity.identity.IdentityRequest
 import org.burgas.kotlinspring.entity.identity.IdentityShortResponse
 import org.burgas.kotlinspring.entity.note.NoteFullResponse
+import org.burgas.kotlinspring.kafka.CustomKafkaProducer
 import org.burgas.kotlinspring.mapper.IdentityMapper
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.redis.core.RedisTemplate
@@ -31,6 +32,8 @@ class IdentityService : CrudService<IdentityRequest, Identity, IdentityShortResp
 
     private final val passwordEncoder: PasswordEncoder
 
+    private final val customKafkaProducer: CustomKafkaProducer
+
     private val identityKey: String = "identityFullResponse::%s"
     private val noteKey: String = "noteFullResponse::%s"
 
@@ -39,13 +42,15 @@ class IdentityService : CrudService<IdentityRequest, Identity, IdentityShortResp
         imageService: ImageService,
         identityRedisTemplate: RedisTemplate<String, IdentityFullResponse>,
         noteRedisTemplate: RedisTemplate<String, NoteFullResponse>,
-        passwordEncoder: PasswordEncoder
+        passwordEncoder: PasswordEncoder,
+        customKafkaProducer: CustomKafkaProducer
     ) {
         this.identityMapper = identityMapper
         this.imageService = imageService
         this.identityRedisTemplate = identityRedisTemplate
         this.noteRedisTemplate = noteRedisTemplate
         this.passwordEncoder = passwordEncoder
+        this.customKafkaProducer = customKafkaProducer
     }
 
     private fun handleCache(identity: Identity) {
@@ -90,8 +95,10 @@ class IdentityService : CrudService<IdentityRequest, Identity, IdentityShortResp
         rollbackFor = [Exception::class, Throwable::class, RuntimeException::class]
     )
     override fun create(request: IdentityRequest) {
-        val identity = this.identityMapper.toEntity(request)
-        this.identityMapper.identityRepository.save(identity)
+        var identity = this.identityMapper.toEntity(request)
+        identity = this.identityMapper.identityRepository.save(identity)
+        val identityFullResponse = this.identityMapper.toFullResponse(identity)
+        this.customKafkaProducer.sendIdentityFullResponse(identityFullResponse)
     }
 
     @Transactional(

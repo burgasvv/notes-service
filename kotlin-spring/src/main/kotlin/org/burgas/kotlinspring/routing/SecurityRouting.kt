@@ -3,9 +3,14 @@ package org.burgas.kotlinspring.routing
 import org.burgas.kotlinspring.entity.exception.ExceptionResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.security.web.csrf.CsrfToken
+import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.router
+import qrcode.QRCode
+import java.io.ByteArrayInputStream
 
 @Configuration
 class SecurityRouting {
@@ -13,6 +18,15 @@ class SecurityRouting {
     @Bean
     fun securityRouter() = router {
         "/api/v1/security".nest {
+
+            GET("/qrcode") {
+                val content = it.param("content").orElseThrow()
+                val qrCodeBytes = QRCode.ofSquares().build(content).renderToBytes()
+                ServerResponse
+                    .status(HttpStatus.OK)
+                    .contentType(MediaType.IMAGE_PNG)
+                    .body(InputStreamResource(ByteArrayInputStream(qrCodeBytes)))
+            }
 
             GET("/csrf-token") {
                 val csrfToken = it.attribute("_csrf").orElseThrow() as CsrfToken

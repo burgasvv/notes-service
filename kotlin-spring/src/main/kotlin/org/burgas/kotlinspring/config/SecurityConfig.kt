@@ -47,7 +47,9 @@ class SecurityConfig {
 
                     "/api/v1/images/by-id",
 
-                    "/api/v1/identities/create"
+                    "/api/v1/identities/create",
+
+                    "/api/v1/security/qrcode"
                 )
                 .permitAll()
 
