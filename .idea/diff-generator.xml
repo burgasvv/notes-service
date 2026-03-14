@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DiffGenerationConfig">
+    <option name="snapshotDbValue" value="4c3207a7-6071-47eb-b404-4f2993b0f938" />
+    <option name="snapshotDirValue" value="$PROJECT_DIR$/kotlin-spring/src/main/resources/db/changelog/create" />
+  </component>
+</project>
