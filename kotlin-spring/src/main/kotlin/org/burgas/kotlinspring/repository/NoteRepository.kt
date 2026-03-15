@@ -12,4 +12,6 @@ interface NoteRepository : JpaRepository<Note, UUID> {
 
     @EntityGraph(value = "note-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
     override fun findById(id: UUID): Optional<Note>
+
+    fun findNoteByTitle(title: String): Optional<Note>
 }
