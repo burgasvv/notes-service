@@ -1,0 +1,103 @@
+
+
+
+### Security Requests
+
+
+
+###
+GET /api/v1/security/csrf-token
+Host: localhost:9010
+Accept: application/json
+
+
+
+### Image Requests
+
+
+
+###
+GET /api/v1/images/by-id?imageId=b95c58ca-fc6d-497e-ac3b-a7516bb71774
+Host: localhost:9010
+Accept: application/json
+
+
+
+### IdentityRequests
+
+
+
+###
+POST /api/v1/identities/create
+Host: localhost:9010
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9010
+X-Csrf-Token: fd6b20d4-5e49-430a-b46a-c305108a49c4
+
+{
+    "authority": "USER",
+    "username": "zagor",
+    "password": "zagor",
+    "email": "zagor@gmail.com",
+    "enabled": true,
+    "firstname": "Загорулько",
+    "lastname": "Борис",
+    "patronymic": "Юрьевич"
+}
+
+###
+GET /api/v1/identities
+Host: localhost:9010
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+GET /api/v1/identities/by-id?identityId=37a4e0be-d873-4776-ad9c-000c57ff99af
+Host: localhost:9010
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+PUT /api/v1/identities/update
+Host: localhost:9010
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9010
+X-Csrf-Token: fd6b20d4-5e49-430a-b46a-c305108a49c4
+Authorization: Basic zagor@gmail.com zagor
+
+{
+    "id": "3046569c-7050-4ea6-90e8-119513702102",
+    "username": "zagorulko"
+}
+
+###
+DELETE /api/v1/identities/delete?identityId=3046569c-7050-4ea6-90e8-119513702102
+Host: localhost:9010
+Accept: application/json
+Origin: http://localhost:9010
+X-Csrf-Token: 66a89a19-df90-4fa1-8321-5bfd42587dea
+Authorization: Basic zagor@gmail.com zagor
+
+###
+DELETE /api/v1/identities/remove-image?identityId=3046569c-7050-4ea6-90e8-119513702102
+Host: localhost:9010
+Accept: application/json
+Origin: http://localhost:9010
+X-Csrf-Token: 66a89a19-df90-4fa1-8321-5bfd42587dea
+Authorization: Basic zagor@gmail.com zagor
+
+###
+PUT /api/v1/identities/change-password
+Host: localhost:9010
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9010
+X-Csrf-Token: 66a89a19-df90-4fa1-8321-5bfd42587dea
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "id": "37a4e0be-d873-4776-ad9c-000c57ff99af",
+    "password": "burgasvv111"
+}
