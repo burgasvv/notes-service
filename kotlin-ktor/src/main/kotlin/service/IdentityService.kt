@@ -58,7 +58,7 @@ fun IdentityEntity.toIdentityFullResponse(): IdentityFullResponse {
     )
 }
 
-class IdentityService {
+class IdentityService : CrudService<IdentityRequest, IdentityShortResponse, IdentityFullResponse> {
 
     val imageService: ImageService = ImageService()
     val redis = DatabaseFactory.redis
@@ -66,34 +66,36 @@ class IdentityService {
     val identityKey: String = "identityFullResponse::%s"
     val noteKey: String = "noteFullResponse::%s"
 
-    suspend fun create(identityRequest: IdentityRequest) = newSuspendedTransaction(
+    override suspend fun create(request: IdentityRequest) = newSuspendedTransaction(
         db = DatabaseFactory.postgres,
         context = Dispatchers.Default,
         transactionIsolation = Connection.TRANSACTION_READ_COMMITTED
     ) {
-        val identityFullResponse = IdentityEntity.new { this.insert(identityRequest) }.toIdentityFullResponse()
+        val identityFullResponse = IdentityEntity.new { this.insert(request) }
+            .load(IdentityEntity::image, IdentityEntity::notes)
+            .toIdentityFullResponse()
         val identityKey = identityKey.format(identityFullResponse.id)
         redis.set(identityKey, Json.encodeToString(identityFullResponse))
         identityFullResponse
     }
 
-    suspend fun findAll() = newSuspendedTransaction(
+    override suspend fun findAll() = newSuspendedTransaction(
         db = DatabaseFactory.postgres, context = Dispatchers.Default, readOnly = true
     ) {
         IdentityEntity.all().with(IdentityEntity::image).map { it.toIdentityShortResponse() }
     }
 
-    suspend fun findById(identityId: UUID) = newSuspendedTransaction(
+    override suspend fun findById(id: UUID) = newSuspendedTransaction(
         db = DatabaseFactory.postgres,
         context = Dispatchers.Default,
         readOnly = true
     ) {
-        val identityKey = identityKey.format(identityId)
+        val identityKey = identityKey.format(id)
         if (redis.exists(identityKey)) {
             Json.decodeFromString<IdentityFullResponse>(redis.get(identityKey))
         } else {
             val identityFullResponse =
-                (IdentityEntity.findById(identityId) ?: throw IllegalArgumentException("Identity not found"))
+                (IdentityEntity.findById(id) ?: throw IllegalArgumentException("Identity not found"))
                     .load(IdentityEntity::image, IdentityEntity::notes)
                     .toIdentityFullResponse()
             redis.set(identityKey, Json.encodeToString(identityFullResponse))
@@ -101,24 +103,24 @@ class IdentityService {
         }
     }
 
-    suspend fun update(identityRequest: IdentityRequest) = newSuspendedTransaction(
+    override suspend fun update(request: IdentityRequest) = newSuspendedTransaction(
         db = DatabaseFactory.postgres,
         context = Dispatchers.Default,
         transactionIsolation = Connection.TRANSACTION_READ_COMMITTED
     ) {
         val identityEntity = IdentityEntity.findByIdAndUpdate(
-            identityRequest.id ?: throw IllegalArgumentException("Identity id is null")
-        ) { it.update(identityRequest) } ?: throw IllegalArgumentException("Identity not found and not updated")
+            request.id ?: throw IllegalArgumentException("Identity id is null")
+        ) { it.update(request) } ?: throw IllegalArgumentException("Identity not found and not updated")
 
         handleCache(identityEntity)
     }
 
-    suspend fun delete(identityId: UUID) = newSuspendedTransaction(
+    override suspend fun delete(id: UUID) = newSuspendedTransaction(
         db = DatabaseFactory.postgres,
         context = Dispatchers.Default,
         transactionIsolation = Connection.TRANSACTION_READ_COMMITTED
     ) {
-        val identityEntity = (IdentityEntity.findById(identityId) ?: throw IllegalArgumentException("Identity not found"))
+        val identityEntity = (IdentityEntity.findById(id) ?: throw IllegalArgumentException("Identity not found"))
         identityEntity.delete()
         handleCache(identityEntity)
     }

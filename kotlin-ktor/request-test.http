@@ -101,3 +101,66 @@ Authorization: Basic burgasvv@gmail.com burgasvv
     "id": "37a4e0be-d873-4776-ad9c-000c57ff99af",
     "password": "burgasvv111"
 }
+
+
+
+### Note Requests
+
+
+
+###
+POST /api/v1/notes/create
+Host: localhost:9010
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9010
+X-Csrf-Token: bae9bd54-1c73-49bd-980b-2a3475c92089
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "title": "New Note",
+    "content": "Content from New Note",
+    "identityId": "37a4e0be-d873-4776-ad9c-000c57ff99af"
+}
+
+###
+PUT /api/v1/notes/update
+Host: localhost:9010
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9010
+X-Csrf-Token: bae9bd54-1c73-49bd-980b-2a3475c92089
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "id": "05606076-dd33-4a6c-bd4c-ada7c18092ba",
+    "title": "New Note Test"
+}
+
+###
+GET /api/v1/notes
+Host: localhost:9010
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+GET /api/v1/notes/by-id?noteId=05606076-dd33-4a6c-bd4c-ada7c18092ba
+Host: localhost:9010
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+DELETE /api/v1/notes/remove-images?noteId=05606076-dd33-4a6c-bd4c-ada7c18092ba
+Host: localhost:9010
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9010
+X-Csrf-Token: 01e7c6ac-791e-42db-8bd2-21b2d44cb7ec
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "imageIds": [
+        "fd4c62b7-14c9-47c7-8021-bd8431f48c60",
+        "f7df08a9-d630-4e37-959a-472dd5835af8"
+    ]
+}

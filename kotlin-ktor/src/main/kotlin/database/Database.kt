@@ -122,18 +122,26 @@ fun Application.configureDatabase() {
     }
 }
 
+interface Request {
+    val id: UUID?
+}
+
+interface Response {
+    val id: UUID?
+}
+
 @Serializable
 data class ImageResponse(
     @Serializable(with = UUIDSerializer::class)
-    val id: UUID? = null,
+    override val id: UUID? = null,
     val name: String? = null,
     val contentType: String? = null
-)
+) : Response
 
 @Serializable
 data class IdentityRequest(
     @Serializable(with = UUIDSerializer::class)
-    val id: UUID? = null,
+    override val id: UUID? = null,
     val authority: Authority? = null,
     val username: String? = null,
     val password: String? = null,
@@ -142,24 +150,24 @@ data class IdentityRequest(
     val firstname: String? = null,
     val lastname: String? = null,
     val patronymic: String? = null
-)
+) : Request
 
 @Serializable
 data class IdentityShortResponse(
     @Serializable(with = UUIDSerializer::class)
-    val id: UUID? = null,
+    override val id: UUID? = null,
     val username: String? = null,
     val email: String? = null,
     val firstname: String? = null,
     val lastname: String? = null,
     val patronymic: String? = null,
     val image: ImageResponse? = null
-)
+) : Response
 
 @Serializable
 data class IdentityFullResponse(
     @Serializable(with = UUIDSerializer::class)
-    val id: UUID? = null,
+    override val id: UUID? = null,
     val username: String? = null,
     val email: String? = null,
     val firstname: String? = null,
@@ -167,35 +175,40 @@ data class IdentityFullResponse(
     val patronymic: String? = null,
     val image: ImageResponse? = null,
     val notes: List<NoteShortResponse>? = null
-)
+) : Response
 
 @Serializable
 data class NoteRequest(
     @Serializable(with = UUIDSerializer::class)
-    val id: UUID? = null,
+    override val id: UUID? = null,
     val title: String? = null,
     val content: String? = null,
     @Serializable(with = UUIDSerializer::class)
     val identityId: UUID? = null
-)
+) : Request
 
 @Serializable
 data class NoteShortResponse(
     @Serializable(with = UUIDSerializer::class)
-    val id: UUID? = null,
+    override val id: UUID? = null,
     val title: String? = null,
     val content: String? = null,
     val createdAt: String? = null,
     val images: List<ImageResponse>? = null
-)
+) : Response
 
 @Serializable
 data class NoteFullResponse(
     @Serializable(with = UUIDSerializer::class)
-    val id: UUID? = null,
+    override val id: UUID? = null,
     val title: String? = null,
     val content: String? = null,
     val createdAt: String? = null,
     val identity: IdentityShortResponse? = null,
     val images: List<ImageResponse>? = null
+) : Response
+
+@Serializable
+data class NoteImage(
+    val imageIds: List<@Serializable(with = UUIDSerializer::class) UUID>
 )

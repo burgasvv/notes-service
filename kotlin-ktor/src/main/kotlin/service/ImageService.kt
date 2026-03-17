@@ -39,7 +39,7 @@ class ImageService {
 
             if (readPart is PartData.FileItem) {
                 ImageEntity.new {
-                    this.name = readPart.name ?: throw IllegalArgumentException("Part name is null")
+                    this.name = readPart.originalFileName ?: throw IllegalArgumentException("Part name is null")
                     this.contentType = "${readPart.contentType?.contentType}/${readPart.contentType?.contentSubtype}"
                     this.data = ExposedBlob(readPart.provider().readBuffer.readByteArray())
                 }
@@ -61,11 +61,11 @@ class ImageService {
     ) {
         val images: MutableList<ImageEntity> = mutableListOf()
         multiPartData.forEachPart { partData ->
-            if (partData.contentType?.contentType != "image") {
+            if (partData.contentType?.contentType == "image") {
 
                 if (partData is PartData.FileItem) {
                     val imageEntity = ImageEntity.new {
-                        this.name = partData.name ?: throw IllegalArgumentException("Part name is null")
+                        this.name = partData.originalFileName ?: throw IllegalArgumentException("Part name is null")
                         this.contentType =
                             "${partData.contentType?.contentType}/${partData.contentType?.contentSubtype}"
                         this.data = ExposedBlob(partData.provider().readBuffer.readByteArray())
