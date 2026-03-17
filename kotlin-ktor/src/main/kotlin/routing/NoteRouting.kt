@@ -1,23 +1,15 @@
 package org.burgas.routing
 
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.Application
-import io.ktor.server.auth.authenticate
-import io.ktor.server.request.receive
-import io.ktor.server.request.receiveMultipart
-import io.ktor.server.response.respond
-import io.ktor.server.routing.delete
-import io.ktor.server.routing.get
-import io.ktor.server.routing.post
-import io.ktor.server.routing.put
-import io.ktor.server.routing.route
-import io.ktor.server.routing.routing
-import kotlinx.serialization.Serializable
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import org.burgas.database.NoteImage
 import org.burgas.database.NoteRequest
-import org.burgas.serialization.UUIDSerializer
 import org.burgas.service.NoteService
-import java.util.UUID
+import java.util.*
 
 fun Application.configureNoteRouting() {
 

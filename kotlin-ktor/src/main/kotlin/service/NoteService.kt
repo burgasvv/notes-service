@@ -1,6 +1,6 @@
 package org.burgas.service
 
-import io.ktor.http.content.MultiPartData
+import io.ktor.http.content.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
@@ -14,7 +14,6 @@ import java.sql.Connection
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.concurrent.thread
 
 fun NoteEntity.insert(noteRequest: NoteRequest) {
     this.title = noteRequest.title ?: throw IllegalArgumentException("Note title is null")
