@@ -33,7 +33,7 @@ Host: localhost:9010
 Accept: application/json
 Content-Type: application/json
 Origin: http://localhost:9010
-X-Csrf-Token: fd6b20d4-5e49-430a-b46a-c305108a49c4
+X-Csrf-Token: efdc488b-305a-464a-b660-b50d5a12c7a8
 
 {
     "authority": "USER",
