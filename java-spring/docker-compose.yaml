@@ -1,0 +1,30 @@
+
+services:
+
+  java-spring-postgres:
+    container_name: java_spring_postgres
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - "5020:5432"
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: java_spring_db
+    volumes:
+      - postgres-data:/var/libpostgresql/data
+
+  java-spring-redis:
+    container_name: java_spring_redis
+    image: redis:latest
+    restart: unless-stopped
+    depends_on:
+      - java-spring-postgres
+    ports:
+      - "6020:6379"
+    volumes:
+      - redis-data:/var/lib/redis/data
+
+volumes:
+  postgres-data:
+  redis-data:
