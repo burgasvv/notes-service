@@ -1,0 +1,49 @@
+
+
+
+### IDentity Requests
+
+
+
+###
+POST /api/v1/identities/create
+Host: localhost:9020
+Accept: application/json
+Content-Type: application/json
+
+{
+    "authority": "ADMIN",
+    "username": "burgasvv",
+    "password": "burgasvv",
+    "email": "burgasvv@gmail.com",
+    "enabled": true,
+    "firstname": "Бургас",
+    "lastname": "Вячеслав",
+    "patronymic": "Васильевич"
+}
+
+###
+PUT /api/v1/identities/update
+Host: localhost:9020
+Accept: application/json
+Content-Type: application/json
+
+{
+    "id": "988e6edf-dcae-4d33-8fb1-5aa8f1c8b029",
+    "authority": "ADMIN"
+}
+
+###
+GET /api/v1/identities
+Host: localhost:9020
+Accept: application/json
+
+###
+GET /api/v1/identities/by-id?identityId=988e6edf-dcae-4d33-8fb1-5aa8f1c8b029
+Host: localhost:9020
+Accept: application/json
+
+###
+DELETE /api/v1/identities/delete?identityId=988e6edf-dcae-4d33-8fb1-5aa8f1c8b029
+Host: localhost:9020
+Accept: application/json

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-spring.main.iml" filepath="$PROJECT_DIR$/.idea/modules/java-spring.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/notes-service.iml" filepath="$PROJECT_DIR$/notes-service.iml" />
     </modules>
   </component>

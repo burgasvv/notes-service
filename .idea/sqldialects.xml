@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/java-spring/src/main/resources/db/changelog/create/01-create-image.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/java-spring/src/main/resources/db/changelog/create/02-create-identity.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/java-spring/src/main/resources/db/changelog/create/03-create-note.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/java-spring/src/main/resources/db/changelog/create/04-create-note-image.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/kotlin-spring/src/main/resources/db/changelog/create/01-create-image.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/kotlin-spring/src/main/resources/db/changelog/create/02-create-identity.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/kotlin-spring/src/main/resources/db/changelog/create/03-create-note.sql" dialect="PostgreSQL" />

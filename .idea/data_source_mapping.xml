@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/java-spring/src/main/resources/db/changelog/create/01-create-image.sql" value="cff1bfb3-044d-4a6d-ab33-8325b344f23f" />
+    <file url="file://$PROJECT_DIR$/java-spring/src/main/resources/db/changelog/create/02-create-identity.sql" value="cff1bfb3-044d-4a6d-ab33-8325b344f23f" />
+    <file url="file://$PROJECT_DIR$/java-spring/src/main/resources/db/changelog/create/03-create-note.sql" value="cff1bfb3-044d-4a6d-ab33-8325b344f23f" />
+    <file url="file://$PROJECT_DIR$/java-spring/src/main/resources/db/changelog/create/04-create-note-image.sql" value="cff1bfb3-044d-4a6d-ab33-8325b344f23f" />
+  </component>
+</project>
