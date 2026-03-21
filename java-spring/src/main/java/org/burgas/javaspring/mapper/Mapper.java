@@ -13,12 +13,4 @@ public interface Mapper<R extends Request, E extends Entity, S extends Response,
     S toShortResponse(E entity);
 
     F toFullResponse(E entity);
-
-    default <D> D handleData(D requestData, String message) {
-        if (requestData == null) {
-            throw new IllegalArgumentException(message);
-        } else {
-            return requestData;
-        }
-    }
 }
