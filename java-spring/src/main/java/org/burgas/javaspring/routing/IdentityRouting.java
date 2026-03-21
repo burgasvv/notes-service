@@ -1,6 +1,7 @@
 package org.burgas.javaspring.routing;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.javaspring.dto.exception.ExceptionResponse;
 import org.burgas.javaspring.dto.identity.IdentityRequest;
 import org.burgas.javaspring.service.IdentityService;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +61,17 @@ public class IdentityRouting {
                             return ServerResponse.ok().build();
                         }
                 )
-//                .onError(Throwable.class, (throwable, _) -> ServerResponse.badRequest().body(throwable.getMessage()))
+                .onError(
+                        Throwable.class,
+                        (throwable, _) -> {
+                            var exceptionResponse = ExceptionResponse.builder()
+                                    .status(HttpStatus.BAD_REQUEST.name())
+                                    .code(HttpStatus.BAD_REQUEST.value())
+                                    .message(throwable.getLocalizedMessage())
+                                    .build();
+                            return ServerResponse.badRequest().body(exceptionResponse);
+                        }
+                )
                 .build();
     }
 }
