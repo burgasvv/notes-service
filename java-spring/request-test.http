@@ -1,7 +1,18 @@
 
 
 
-### IDentity Requests
+### Security Requests
+
+
+
+###
+GET /api/v1/security/csrf-token
+Host: localhost:9020
+Accept: application/json
+
+
+
+### Identity Requests
 
 
 
@@ -10,6 +21,7 @@ POST /api/v1/identities/create
 Host: localhost:9020
 Accept: application/json
 Content-Type: application/json
+X-Csrf-Token: GPAe_sjFk5KjzH0-U9NxYhUwgpG6JWvnp90z_YgTNQbxKs5dKsV9nP-k96GO9RsGav5FUHBWr_OMEV_KxOkGm-wgVjaXSKto
 
 {
     "authority": "ADMIN",
@@ -20,6 +32,24 @@ Content-Type: application/json
     "firstname": "Бургас",
     "lastname": "Вячеслав",
     "patronymic": "Васильевич"
+}
+
+###
+POST /api/v1/identities/create
+Host: localhost:9020
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: hA-QxEaaJOv8384r6R0aapt6A8FYK1JdBi4NHjNvKWlX47rfsDmg9H-rRdLRvPwajTAuCK8eLvk6EjFwNx89KwMMGg1j0Nzs
+
+{
+    "authority": "USER",
+    "username": "zagor",
+    "password": "zagor",
+    "email": "zagor@gmail.com",
+    "enabled": true,
+    "firstname": "Загорулько",
+    "lastname": "Борис",
+    "patronymic": "Юрьевич"
 }
 
 ###
@@ -37,13 +67,22 @@ Content-Type: application/json
 GET /api/v1/identities
 Host: localhost:9020
 Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
 
 ###
-GET /api/v1/identities/by-id?identityId=988e6edf-dcae-4d33-8fb1-5aa8f1c8b029
+GET /api/v1/identities/by-id?identityId=35bda0ee-e525-4d6f-b812-7f82ea203604
 Host: localhost:9020
 Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
 
 ###
 DELETE /api/v1/identities/delete?identityId=988e6edf-dcae-4d33-8fb1-5aa8f1c8b029
 Host: localhost:9020
 Accept: application/json
+
+###
+DELETE /api/v1/identities/remove-image?identityId=35bda0ee-e525-4d6f-b812-7f82ea203604
+Host: localhost:9020
+Accept: application/json
+X-Csrf-Token: YDgZ7t9g7uz0O-yCxEDzJp-5DZth8fpJGKROZ_rG_0fJyHhTUg16jOgBit_ZAoq6_W3HFPrfIPlXxc5ke5B7AZ71nHevqh1m
+Authorization: Basic burgasvv@gmail.com burgasvv

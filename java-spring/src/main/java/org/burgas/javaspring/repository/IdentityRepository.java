@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,4 +16,6 @@ public interface IdentityRepository extends JpaRepository<Identity, UUID> {
     @Override
     @EntityGraph(value = "identity-entity-graph", type = EntityGraph.EntityGraphType.FETCH)
     @NonNull Optional<Identity> findById(UUID uuid);
+
+    Optional<Identity> findIdentityByEmail(String email);
 }

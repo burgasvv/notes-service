@@ -8,6 +8,7 @@ import org.burgas.javaspring.entity.identity.Authority;
 import org.burgas.javaspring.entity.identity.Identity;
 import org.burgas.javaspring.repository.IdentityRepository;
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public final class IdentityMapper implements Mapper<IdentityRequest, Identity, I
 
     public final IdentityRepository identityRepository;
     private final ObjectFactory<NoteMapper> noteMapperObjectFactory;
+    public final PasswordEncoder passwordEncoder;
 
     private NoteMapper getNoteMapper() {
         return this.noteMapperObjectFactory.getObject();
@@ -46,7 +48,7 @@ public final class IdentityMapper implements Mapper<IdentityRequest, Identity, I
                         () -> Identity.builder()
                                 .authority(Optional.ofNullable(request.getAuthority()).orElse(Authority.USER))
                                 .username(Optional.ofNullable(request.getUsername()).orElseThrow())
-                                .password(Optional.ofNullable(request.getPassword()).orElseThrow())
+                                .password(this.passwordEncoder.encode(Optional.ofNullable(request.getPassword()).orElseThrow()))
                                 .email(Optional.ofNullable(request.getEmail()).orElseThrow())
                                 .enabled(Optional.ofNullable(request.getEnabled()).orElse(true))
                                 .firstname(Optional.ofNullable(request.getFirstname()).orElseThrow())

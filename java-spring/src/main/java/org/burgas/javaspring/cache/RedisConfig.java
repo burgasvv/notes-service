@@ -1,4 +1,4 @@
-package org.burgas.javaspring.config;
+package org.burgas.javaspring.cache;
 
 import org.burgas.javaspring.dto.identity.IdentityFullResponse;
 import org.burgas.javaspring.dto.note.NoteFullResponse;

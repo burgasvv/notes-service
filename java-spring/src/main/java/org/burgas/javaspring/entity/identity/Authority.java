@@ -1,6 +1,14 @@
 package org.burgas.javaspring.entity.identity;
 
-public enum Authority {
+import org.jspecify.annotations.NonNull;
+import org.springframework.security.core.GrantedAuthority;
 
-    ADMIN, USER
+public enum Authority implements GrantedAuthority {
+
+    ADMIN, USER;
+
+    @Override
+    public @NonNull String getAuthority() {
+        return this.name();
+    }
 }
